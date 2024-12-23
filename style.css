@@ -707,7 +707,25 @@ header.stayFixed main {
         -webkit-backdrop-filter: blur(0px);
         backdrop-filter: blur(0px);
         background-color: rgba(0, 0, 0, 0.5);
+        max-height: 80vh;
+        overflow-y: auto;
+        scrollbar-width: thin;
     }
+
+    .wishing-content::-webkit-scrollbar {
+        width: thin;
+    }
+    
+    .wishing-content::-webkit-scrollbar-thumb {
+        background-color: rgb(240, 225, 5);
+        border-radius: 10px;
+    }
+    
+    .wishing-content::-webkit-scrollbar-track {
+        background-color: rgba(0, 0, 0, 0.518);
+        border-radius: 10px;
+    }
+    
 
     .wishing-overlay-div .wishing-close{
         z-index: 3;
@@ -1437,7 +1455,7 @@ header.stayFixed main {
     /* Content Container */
     .love-content {
         width: 80%; /* Increase width for better use of available space */
-        max-height: 95vh; /* Adjust max-height to fit smaller screens */
+        max-height: 80vh; /* Adjust max-height to fit smaller screens */
         padding: 20px; /* Reduce padding for a more compact view */
         font-size: 1rem; /* Reduce font size slightly for smaller screens */
         overflow-y: auto;
