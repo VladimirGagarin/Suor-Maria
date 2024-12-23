@@ -534,6 +534,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function displayExmasvideo () {
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth(); // 0-based, so December is 11
+
+        if(currentMonth === 11 &&  currentDay === 27) {
+
+            document.querySelector('.video-wish-merry-overlay').style.display = "none";
+            alert(currentLanguage === "italian" ? "Buon Natale e Felice Anno Nuovo!" : "Christmas is over. Wishing you a Happy New Year!");
+            return;
+        }
+
         const prefVid = document.querySelector('.video-content video');
         const playVidBtn = document.querySelectorAll('.video-controls button')[0];
         const muteVidBtn = document.querySelectorAll('.video-controls button')[1];
@@ -627,6 +638,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function displayCardWish() {
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth(); // 0-based, so December is 11
+    
+        // If the current date is December 27, remove the .personal-card-container
+        if (currentMonth === 11 && currentDay === 27) {
+            const personalCardContainer = document.querySelector('.personal-card-container');
+            if (personalCardContainer) {
+                personalCardContainer.style.display = "none"; // Hide the container
+            }
+            return; // Exit the function after hiding the container
+        }
+
         document.querySelector('.personal-card-container').style.display = "flex";
         const engWish = new Audio(document.querySelector('.user-card-wish').getAttribute('data-en-wish'));
         const itWish = new Audio(document.querySelector('.user-card-wish').getAttribute('data-it-wish'));
