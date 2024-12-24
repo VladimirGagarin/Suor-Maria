@@ -26,7 +26,7 @@ header {
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 5px;
-    top: 0;
+    top: 70px;
     left: 0;
     z-index: 999;
     width: 96%;
@@ -248,6 +248,90 @@ header > * {
     }
 }
 
+/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/* Styling for the lightrope container */
+.top-lights {
+  position: absolute;
+  top: 0;
+  width: 97%;
+  z-index: 2; /* Ensures the lights are above the header */
+  background-color: rgb(38, 57, 77);
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.lightrope {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0;
+  padding: 0;
+  pointer-events: none;
+    
+}
+
+.lightrope li {
+  list-style: none;
+  width: 30px;
+  height: 30px;
+  margin: 0 8px;
+  background-color: rgba(0, 255, 165, 1); /* Light color */
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 255, 165, 0.7);
+  animation: twinkle 1.5s infinite ease-in-out;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+
+}
+
+/* Animation for twinkling effect */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Alternate colors for even/odd lights */
+.lightrope li:nth-child(1) {
+  background-color: rgba(255, 255, 0, 1); /* Yellow */
+  animation-duration: 1.2s;
+}
+
+.lightrope li:nth-child(3) {
+  background-color: rgba(255, 0, 0, 1); /* Red */
+  animation-duration: 1.4s;
+}
+
+.lightrope li:nth-child(2) {
+    background-color:  rgba(0, 255, 165, 1); /* Yellow */
+    animation-duration: 1.6s;
+  }
+  
+.lightrope li:nth-child(4) {
+    background-color: rgb(8, 0, 255); /* Red */
+    animation-duration: 1.8s;
+}
+
+.lightrope li:nth-child(5) {
+    background-color: rgb(255, 251, 0); /* Yellow */
+    animation-duration: 2s;
+}
+  
+.lightrope li:nth-child(6) {
+    background-color: rgb(255, 0, 0); /* Red */
+    animation-duration: 2.2s;
+}
+
+.lightrope li:nth-child(6) {
+    background-color: rgba(0, 255, 165, 1); /* Red */
+    animation-duration: 2.2s;
+}
+
+
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 main {
     width: 100%;
@@ -256,6 +340,7 @@ main {
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;
+    margin-top: 70px;
 }
 
 header.stayFixed main {
@@ -1507,6 +1592,9 @@ header.stayFixed main {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.4); /* Glow effect */
     z-index: 1; /* Make sure it appears above content */
     animation: fall linear infinite;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    width: 20px;
+    height: 20px;
 }
 
 @keyframes fall {
@@ -1520,4 +1608,5 @@ header.stayFixed main {
     }
 }
 
+/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
