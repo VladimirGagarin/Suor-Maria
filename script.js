@@ -907,6 +907,31 @@ document.addEventListener('DOMContentLoaded', function () {
             displayCardWish();
         }
     }
+
+
+    let player;
+
+    function initializePlayer() {
+        player = new YT.Player('trailer-video', {
+            events: {
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+
+    function onYouTubeIframeAPIReady() {
+        initializePlayer();
+    }
+
+    // Detect when the video ends
+    function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.ENDED) {
+            alert('Video ended');
+            document.querySelector('.waiting-overlay').style.display = 'flex';
+        }
+    }
+
+
 });
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
