@@ -1370,7 +1370,7 @@ header.stayFixed main {
     display: none;
 }
 
-.love-content::before{
+.love-content::before {
     content: '';
     background: rgba(0, 0, 0, 0.6); /* Add festive pattern */
     position: absolute;
@@ -1380,7 +1380,11 @@ header.stayFixed main {
     height: 100%;
     z-index: 1;
     border-radius: 10px;
+    pointer-events: none; /* Ensure the overlay doesn't interfere with interactions */
 }
+
+
+
 
 .love-content > * {
     z-index: 2;
