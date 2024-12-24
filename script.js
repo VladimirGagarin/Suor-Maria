@@ -110,8 +110,12 @@ document.addEventListener('DOMContentLoaded', function () {
     
 
     function createSnowflakes() {
+
+        const existingSnowflakes = document.querySelectorAll('.snowflake');
+        existingSnowflakes.forEach((snowflake) => snowflake.remove());
+
         // Generate a random number of snowflakes
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < 30; i++) {
             const snowflake = document.createElement('div');
             snowflake.classList.add('snowflake');
     
@@ -134,11 +138,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     // Call the function periodically to keep the snowfall going
-    setInterval(createSnowflakes, 15000);
+    setInterval(createSnowflakes, 20000);
 
     createSnowflakes(); // Initial snowflakes
 
-    
+
      function shownotification(messsage) {
         const  div = document.querySelector('.notification-div');
         div.innerHTML = `<h3>${messsage}</h3>`;
@@ -738,8 +742,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    const words = ['sempre', 'seredato', 'deo', 'gratias'];
-    const correctOrder = ['sempre','seredato', 'deo', 'gratias'];
+    const words = ['sempre', 'sia', 'lodato', 'deo', 'gratias'];
+    const correctOrder = ['sempre','sia','lodato', 'deo', 'gratias'];
     const wordsList = document.querySelector('.words-list');
     const puzzleTarget = document.querySelector('.puzzle-target');
     const authPage = document.querySelector('.auth-page');
