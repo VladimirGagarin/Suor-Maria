@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function () {
             snowflake.classList.add('snowflake');
     
             // Randomize size and position
-            const size = Math.random() * 8 + 2; // Between 2px and 10px
+            const size = Math.random() * 8 + 8; // Between 2px and 10px
             snowflake.style.width = `${size}px`;
             snowflake.style.height = `${size}px`;
             snowflake.style.left = `${Math.random() * 100}vw`; // Random horizontal position
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     // Call the function periodically to keep the snowfall going
-    setInterval(createSnowflakes, 20000);
+    setInterval(createSnowflakes, 28000);
 
     createSnowflakes(); // Initial snowflakes
 
