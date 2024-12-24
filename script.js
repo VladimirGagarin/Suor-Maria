@@ -109,6 +109,36 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
     
 
+    function createSnowflakes() {
+        // Generate a random number of snowflakes
+        for (let i = 0; i < 10; i++) {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+    
+            // Randomize size and position
+            const size = Math.random() * 8 + 2; // Between 2px and 10px
+            snowflake.style.width = `${size}px`;
+            snowflake.style.height = `${size}px`;
+            snowflake.style.left = `${Math.random() * 100}vw`; // Random horizontal position
+            snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`; // Between 2s and 5s
+            snowflake.style.animationDelay = `${Math.random() * 5}s`; // Stagger start time
+    
+            // Append to the body
+            document.body.appendChild(snowflake);
+    
+            // Remove the snowflake after its animation
+            snowflake.addEventListener('animationend', () => {
+                snowflake.remove();
+            });
+        }
+    }
+    
+    // Call the function periodically to keep the snowfall going
+    setInterval(createSnowflakes, 15000);
+
+    createSnowflakes(); // Initial snowflakes
+
+    
      function shownotification(messsage) {
         const  div = document.querySelector('.notification-div');
         div.innerHTML = `<h3>${messsage}</h3>`;
