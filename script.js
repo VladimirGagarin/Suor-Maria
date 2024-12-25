@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentWish = null;
     let currentWishLanguge = null;
     let currentUser = localStorage.getItem('username') || null; // Set to null if not found
+    let countdownInterval
 
     PlayXmasvidBtn.disabled = true;
 
@@ -261,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateCountdown();
 
     // Update countdown every second
-    const countdownInterval = setInterval(updateCountdown, 1000);
+    countdownInterval = setInterval(updateCountdown, 1000);
 
     document.querySelector('.switch').addEventListener('click', function () {
         const switchElement = this;
