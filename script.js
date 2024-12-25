@@ -15,8 +15,13 @@ document.addEventListener('DOMContentLoaded', function () {
     let countdownInterval;
     let countdownYear;
     let currentNewYearWish =  null;
+    let isPlayingHbd = false;
+    let currentHbd = null;
 
     PlayXmasvidBtn.disabled = true;
+    const hbdDiv = document.querySelector('.control-heartfelt');
+    const enHbd = new Audio(hbdDiv.getAttribute('data-en-hbd'));
+    const itHbd = new Audio(hbdDiv.getAttribute('data-it-hbd'));
 
     const hailMaryPrayer = [
         { text: "Hail Mary, full of grace, the Lord is with you", italian: "Ave Maria, piena di grazia, il Signore è con te" },
@@ -217,8 +222,52 @@ document.addEventListener('DOMContentLoaded', function () {
     // Start by displaying the first line
     displayPrayer();
 
+    checkToday();
     
+    function checkToday() {
+        const today = new Date();
+        const date = today.getDate();
+        
+        // Check if hbdDiv exists
+        if (!hbdDiv) return;
     
+        const playbtn = hbdDiv.querySelector('button');
+    
+        // Check if playbtn exists
+        if (!playbtn) return;      
+    
+        if (date > 27) {
+            hbdDiv.style.display = "none";
+        }
+    
+        playbtn.onclick = function () {
+            currentHbd = (currentLanguage === 'italian') ? itHbd : enHbd;
+            isPlayingHbd = !isPlayingHbd;
+    
+            if (isPlayingHbd) {
+                currentHbd.play();
+                playbtn.textContent = (currentLanguage === "italian") ? "Pausa" : "Pause";
+            } else {
+                currentHbd.pause();
+                playbtn.textContent = (currentLanguage === "italian") ? "Gioca" : "Play"; // Corrected from "Gioci"
+            }
+
+            currentHbd.onended = function () {
+                isPlayingHbd = false;
+                playbtn.textContent = (currentLanguage === "italian") ? "Gioca" : "Play";
+            }
+        }
+    }
+    
+
+    function stopHtbd() {
+        if(currentHbd && !currentHbd.paused) {
+            currentHbd.pause();
+            currentHbd.currentTime = 0;
+            document.querySelector('.control-heartfelt button').textContent = (currentLanguage === "italian") ? "Gioca" : "Play";
+        }
+    }
+
     function updateCountdown() {
         // Set the target date for Christmas (midnight of December 25, 2024, UTC)
         const targetDate = new Date(Date.UTC(2024, 11, 25, 0, 0, 0)); // December is month 11 (0-indexed)
@@ -269,7 +318,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.switch').addEventListener('click', function () {
         const switchElement = this;
         const languageLabel = document.getElementById('language-label');
-    
+        
+        
         // Toggle the switch and update the label text
         switchElement.classList.toggle('toggled');
         clearInterval(prayerInterval); // Clear current prayer interval
@@ -293,6 +343,13 @@ document.addEventListener('DOMContentLoaded', function () {
             currentNewYearWish.pause();
             currentNewYearWish.currentTime = 0;
             document.querySelector('.hidden-message .center-message button').innerHTML = '&#9654;';
+        }
+
+        if(currentHbd && !currentHbd.paused) {
+            currentHbd.pause();
+            currentHbd.currentTime = 0;
+            document.querySelector('.control-heartfelt button').textContent = (currentLanguage === "italian") ? "Gioca" : "Play";
+            isPlayingHbd = false;
         }
         
         if (switchElement.classList.contains('toggled')) {
@@ -421,12 +478,22 @@ document.addEventListener('DOMContentLoaded', function () {
             currentLoveMsg = enlove;
         }
 
+        if(currentNewYearWish){
+            currentNewYearWish.pause();
+        }
+        
         currentLoveMsg.play();
-        currentNewYearWish.pause();
+       
         playLoveMsg.innerHTML = "&#10074;&#10074;"
         loveContent.classList.add('glowing');
         isPlayinLovemsg = true;
 
+        if(currentHbd && !currentHbd.paused) {
+            currentHbd.pause();
+            currentHbd.currentTime = 0;
+            document.querySelector('.control-heartfelt button').textContent = (currentLanguage === "italian") ? "Gioca" : "Play";
+            isPlayingHbd = false;
+        }
 
         playLoveMsg.onclick = function () {
 
@@ -509,6 +576,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         textWishArea.innerHTML = `<h3>${content.message}</h3>`;
 
+        
         overlay.style.display = 'flex';
         document.querySelector('.wishing-close').style.display = 'none';
 
@@ -524,6 +592,13 @@ document.addEventListener('DOMContentLoaded', function () {
             currentNewYearWish.pause();
             currentNewYearWish.currentTime = 0;
             document.querySelector('.hidden-message .center-message button').innerHTML = '&#9654;';
+        }
+
+        if(currentHbd && !currentHbd.paused) {
+            currentHbd.pause();
+            currentHbd.currentTime = 0;
+            document.querySelector('.control-heartfelt button').textContent = (currentLanguage === "italian") ? "Gioca" : "Play";
+            isPlayingHbd = false;
         }
 
         setTimeout(function() {
@@ -597,6 +672,14 @@ document.addEventListener('DOMContentLoaded', function () {
             alert(currentLanguage === "italian" ? "Buon Natale e Felice Anno Nuovo!" : "Christmas is over. Wishing you a Happy New Year!");
             PlayXmasvidBtn.disabled = true;
             return;
+        }
+        
+
+        if(currentHbd && !currentHbd.paused) {
+            currentHbd.pause();
+            currentHbd.currentTime = 0;
+            document.querySelector('.control-heartfelt button').textContent = (currentLanguage === "italian") ? "Gioca" : "Play";
+            isPlayingHbd = false;
         }
 
         const prefVid = document.querySelector('.video-content video');
