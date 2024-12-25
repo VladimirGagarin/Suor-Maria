@@ -510,6 +510,7 @@ document.addEventListener('DOMContentLoaded', function () {
         textWishArea.innerHTML = `<h3>${content.message}</h3>`;
 
         overlay.style.display = 'flex';
+        document.querySelector('.wishing-close').style.display = 'none';
 
         if(currentWish && !currentWish.paused) {
             currentWish.pause();
@@ -534,6 +535,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 playBtn.innerHTML = "&#10074;&#10074;"; // Change button to pause icon
                 playBtn.disabled = false; // Enable the button when audio starts playing
                 wishingContent.classList.add('glowing');
+                document.querySelector('.wishing-close').style.display = 'flex';
             });
         
             // If the audio is already loaded, play immediately
@@ -543,6 +545,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 playBtn.innerHTML = "&#10074;&#10074;"; // Change button to pause icon
                 playBtn.disabled = false; // Enable the button
                 wishingContent.classList.add('glowing');
+                document.querySelector('.wishing-close').style.display = 'flex';
             }
         
         }, 3000); // Delay of 3 seconds        
@@ -999,6 +1002,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let isPlayingNewYearWish = false;
         document.querySelector('.happy-new-year-message').classList.add('festive');
+        document.querySelector('.new-year-heartfelt-message').classList.toggle('glowing', isPlayingNewYearWish);
         const username = document.querySelector('.hidden-message .center-message h3');
 
         if (!currentUser) {
@@ -1015,6 +1019,7 @@ document.addEventListener('DOMContentLoaded', function () {
             currentNewYearWish = (currentLanguage === 'italian') ? ityear : enyear;
 
             isPlayingNewYearWish = !isPlayingNewYearWish;
+            document.querySelector('.new-year-heartfelt-message').classList.toggle('glowing', isPlayingNewYearWish);
             
             if(isPlayingNewYearWish) {
                 currentNewYearWish.play();
@@ -1027,6 +1032,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             currentNewYearWish.onended = function () {
                 isPlayingNewYearWish = false;
+                document.querySelector('.new-year-heartfelt-message').classList.toggle('glowing', isPlayingNewYearWish);
                 this.innerHTML = '&#9654';
                 window.scrollTo({
                     top: document.body.scrollHeight,
