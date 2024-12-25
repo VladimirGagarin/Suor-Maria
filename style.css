@@ -557,6 +557,48 @@ header.stayFixed main {
     flex-direction: column;
 }
 
+.control-heartfelt {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.text-hbd h3 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+.text-hbd h3[data-translate-italian] {
+    font-style: italic;
+    color: #005f73;
+}
+
+.chrismas-cards .heartfelt-message button {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chrismas-cards .heartfelt-message button:hover {
+    background-color: #005f73;
+}
+
+.chrismas-cards .heartfelt-message button:focus {
+    outline: none;
+}
+
 .glowing {
     border: 5px solid transparent; /* Start with transparent to make the glow stand out */
     border-radius: 15px;
