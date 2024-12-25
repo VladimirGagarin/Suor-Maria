@@ -1714,7 +1714,7 @@ header.stayFixed main {
 
 /********************************************************************************************************************************************************************/
 .happy-new-year-message {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     flex-direction: column;
