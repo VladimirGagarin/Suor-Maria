@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentWishLanguge = null;
     let currentUser = localStorage.getItem('username') || null; // Set to null if not found
     let countdownInterval;
+    let countdownYear;
+    let currentNewYearWish =  null;
 
     PlayXmasvidBtn.disabled = true;
 
@@ -286,6 +288,12 @@ document.addEventListener('DOMContentLoaded', function () {
             const userCardWish = document.querySelector('.user-card-wish');
             userCardWish.classList.remove('glowing');
         }
+
+        if(currentNewYearWish && !currentNewYearWish.paused) {
+            currentNewYearWish.pause();
+            currentNewYearWish.currentTime = 0;
+            document.querySelector('.hidden-message .center-message button').innerHTML = '&#9654;';
+        }
         
         if (switchElement.classList.contains('toggled')) {
             languageLabel.textContent = 'IT'; // Change text to Italian
@@ -414,6 +422,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         currentLoveMsg.play();
+        currentNewYearWish.pause();
         playLoveMsg.innerHTML = "&#10074;&#10074;"
         loveContent.classList.add('glowing');
         isPlayinLovemsg = true;
@@ -508,6 +517,12 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.user-card-wish button').innerHTML = '&#9654;';
             const userCardWish = document.querySelector('.user-card-wish');
             userCardWish.classList.remove('glowing');
+        }
+
+        if(currentNewYearWish && !currentNewYearWish.paused) {
+            currentNewYearWish.pause();
+            currentNewYearWish.currentTime = 0;
+            document.querySelector('.hidden-message .center-message button').innerHTML = '&#9654;';
         }
 
         setTimeout(function() {
@@ -605,6 +620,12 @@ document.addEventListener('DOMContentLoaded', function () {
             userCardWish.classList.remove('glowing');
         }
 
+        if(currentNewYearWish && !currentNewYearWish.paused) {
+            currentNewYearWish.pause();
+            currentNewYearWish.currentTime = 0;
+            document.querySelector('.hidden-message .center-message button').innerHTML = '&#9654;';
+        }
+
         playVidBtn.onclick = function () {
             isplayinVid = !isplayinVid;
 
@@ -685,6 +706,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (personalCardContainer) {
                 personalCardContainer.style.display = "none"; // Hide the container
             }
+
+            showNewYearsCountdown();
             return; // Exit the function after hiding the container
         }
 
@@ -700,8 +723,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if(currentUser) {
             document.querySelector('.card-header #userName').textContent = currentUser;
         }
-
-
 
 
         playWish.onclick = function () {
@@ -734,14 +755,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-       
-
-        if(currentWish.ended) {
-            isPlayingWish = false;
-            currentWish.currentTime = 0;
-            userCardWish.classList.remove('glowing');
-            playWish.innerHTML = isPlayingWish ? "&#10074;&#10074;" : "&#9654;";
-        }
     }
 
     const words = ['sempre', 'sia', 'lodato', 'deo', 'gratias'];
@@ -803,7 +816,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const wordInList = Array.from(wordsList.children).find(child => child.textContent.toLowerCase() === word);
         if (wordInList) {
             wordInList.style.pointerEvents = 'none'; // Disable click
-            wordInList.style.opacity = 0.5; // Make it appear disabled
+            wordInList.style.opacity = 0.1; // Make it appear disabled
+            
         }
 
         // Check if the user has arranged the words correctly
@@ -838,8 +852,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     displayCardWish();
                 }
 
-                shownotification((currentLanguage === "italian") ? `Bienvenuto! ${currentUser}` : `Welcome! ${currentUser}`);
-
+                shownotification((currentLanguage === "italian") ? `Bienvenuto! ${currentUser ?? "Amico/a"}` : `Welcome! ${currentUser ?? "Friend"}`);
+                
             }, 1500);
 
         } else {
@@ -933,7 +947,96 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function showNewYearsCountdown() {
+        // Start the countdown
+        countdownYear = setInterval(startNewYearsCountDown, 1000);
+        document.querySelector('.happy-new-year-message').style.display = 'flex';
+        document.querySelector('.auth-page').classList.add('newYear');
+    }
+   
+    function startNewYearsCountDown() {
+        
+        const countdownElement = document.querySelector('.displayed-message h3');
+        
+        // Ensure the DOM element exists
+        if (!countdownElement) {
+            console.error('Countdown element not found in the DOM.');
+            return;
+        }
+        
+        const now = new Date(); // Get the current time dynamically
+        const targetDate = new Date(Date.UTC(2025, 0, 1, 0, 0, 0)); // January 1, 2025, 00:00:00 UTC
+        const timeDifference = targetDate - now; // Calculate the remaining time
+        
+        if (timeDifference > 0) {
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+            
+            // Multilingual support
+            const daysText = (currentLanguage === "italian") ? "Giorni" : "Days";
+            const hoursText = (currentLanguage === "italian") ? "Ore" : "Hours";
+            const minutesText = (currentLanguage === "italian") ? "Minuti" : "Minutes";
+            const secondsText = (currentLanguage === "italian") ? "Secondi" : "Seconds";
+            
+            // Update the countdown text
+            countdownElement.textContent = 
+                `${days < 10 ? "0" : ""}${days} ${daysText} : ` +
+                `${hours < 10 ? "0" : ""}${hours} ${hoursText} : ` +
+                `${minutes < 10 ? "0" : ""}${minutes} ${minutesText} : ` +
+                `${seconds < 10 ? "0" : ""}${seconds} ${secondsText}`;
+        } else {
+            // Stop the countdown and display the New Year message
+            clearInterval(countdownYear);
+            displayNewYearsMessage();
+        }
+    }
+    
+    
 
+    function  displayNewYearsMessage() {
+
+        let isPlayingNewYearWish = false;
+        document.querySelector('.happy-new-year-message').classList.add('festive');
+        const username = document.querySelector('.hidden-message .center-message h3');
+
+        if (!currentUser) {
+            username.textContent = (currentLanguage === "italian") ? "Amico/a" : "You";
+        } else {
+            username.textContent = currentUser;
+        }
+        
+        const  enyear = new  Audio(document.querySelector('.new-year-heartfelt-message').getAttribute('data-enyearwish'));
+        const ityear = new  Audio(document.querySelector('.new-year-heartfelt-message').getAttribute('data-ityearwish'));
+
+        document.querySelector('.hidden-message .center-message button').onclick = function () {
+        
+            currentNewYearWish = (currentLanguage === 'italian') ? ityear : enyear;
+
+            isPlayingNewYearWish = !isPlayingNewYearWish;
+            
+            if(isPlayingNewYearWish) {
+                currentNewYearWish.play();
+                this.innerHTML = '&#10074;&#10074;';
+            }
+            else{
+                currentNewYearWish.pause();
+                this.innerHTML = '&#9654';
+            }
+
+            currentNewYearWish.onended = function () {
+                isPlayingNewYearWish = false;
+                this.innerHTML = '&#9654';
+                window.scrollTo({
+                    top: document.body.scrollHeight,
+                    behavior: 'smooth'
+                  });                  
+            }.bind(this);
+        }
+    }
+
+    
 });
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
