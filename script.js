@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentWish = null;
     let currentWishLanguge = null;
     let currentUser = localStorage.getItem('username') || null; // Set to null if not found
-    let countdownInterval
+    let countdownInterval;
 
     PlayXmasvidBtn.disabled = true;
 
@@ -577,6 +577,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             document.querySelector('.video-wish-merry-overlay').style.display = "none";
             alert(currentLanguage === "italian" ? "Buon Natale e Felice Anno Nuovo!" : "Christmas is over. Wishing you a Happy New Year!");
+            PlayXmasvidBtn.disabled = true;
             return;
         }
 
