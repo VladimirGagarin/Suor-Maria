@@ -851,6 +851,10 @@ header.stayFixed main {
     justify-content: center;
 }
 
+.auth-page.newYear {
+    background: url('new-year.gif') no-repeat center center/cover;
+}
+
 .auth-overlay {
     background: rgba(0, 0, 0, 0.7);
     padding: 30px;
@@ -860,6 +864,12 @@ header.stayFixed main {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     width: 60%;
     height: 40vh;
+    
+}
+
+.auth-page.newYear .auth-overlay {
+    background: rgba(0, 0, 0, 0.2);
+    color: gold;
 }
 
 .auth-overlay h2 {
@@ -879,6 +889,7 @@ header.stayFixed main {
     margin-bottom: 20px;
 }
 
+
 .words-list .word {
     background-color: #fff;
     padding: 8px 15px;
@@ -897,9 +908,13 @@ header.stayFixed main {
     gap: 15px;
     width: 100%;
     padding: 10px;
-    border: 2px dashed #fff;
-    min-height: 40px;
+    border: 2px dashed #f9f9f9;
+    min-height: 60px;
     border-radius: 5px;
+}
+
+.auth-page.newYear .puzzle-target {
+    border: 5px dashed gold;
 }
 
 .puzzle-target .word {
@@ -1696,3 +1711,168 @@ header.stayFixed main {
         font-size: 1.4rem; /* Adjust font size */
     }
 }
+
+/********************************************************************************************************************************************************************/
+.happy-new-year-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    height: 60vh;
+    width: 96%;
+    margin-top: 60px;
+    padding: 20px;
+    background-color: #f0f8ff; /* Light blue fallback */
+    background-image: url('wow.jpg'), linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)); /* Overlay gradient */
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+  }
+  
+  .happy-new-year-message::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Subtle overlay for readability */
+    z-index: 1;
+  }
+  
+  .happy-new-year-message > * {
+    z-index: 2; /* Ensure content is above overlay */
+    position: relative;
+  }
+  
+  .happy-new-year-message .displayed-message {
+    width: 100%;
+  }
+  
+  .happy-new-year-message .hidden-message {
+    display: none; /* Initially hidden */
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+  }
+
+  .happy-new-year-message.festive{
+    height: auto;
+  }
+  
+  .happy-new-year-message.festive .displayed-message {
+    display: none; /* Hide countdown after event */
+  }
+  
+  .happy-new-year-message.festive .hidden-message {
+    display: flex; /* Show hidden message */
+  }
+  
+  .hidden-message h3 {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: #ffe4b5; /* Warm golden color for messages */
+  }
+  
+  .new-year-heartfelt-message {
+    margin: 20px;
+    font-size: 1.4rem;
+    color: #f9f9f9; /* Festive red text */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    width: 60%;
+    background-color: rgba(255, 255, 255, 0.4);
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 3;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+
+
+.hidden-message .center-message{
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    align-items: center;
+    flex-direction: column;  
+}
+
+.hidden-message .center-message button {
+    background: #206cd0;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    margin: 10px;
+}
+
+.hidden-message .center-message button:hover{
+    transform: scale(1.2);
+    background: #f9f9f9;
+    color: #206cd0;
+}
+  
+
+@media (max-width: 800px) {
+    .happy-new-year-message {
+        width: 94%;
+        min-height: 30vh;
+        height: auto;
+        padding: 15px;
+        margin-top: 40px;
+        background-size: cover;
+    }
+
+    .happy-new-year-message .displayed-message {
+        font-size: 1.2rem; /* Reduce font size for better readability */
+        
+    }
+
+    
+    .new-year-heartfelt-message {
+        width: 96%;
+        font-size: 1.2rem; /* Adjust font size for small screens */
+        margin: 10px 0;
+        padding: 8px;
+       
+    }
+
+    .hidden-message h3 {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .hidden-message .center-message {
+        width: 100%; /* Full width for small screens */
+        padding: 0;
+    }
+
+    .hidden-message .center-message button {
+        font-size: 1rem; /* Adjust button size */
+        padding: 8px 15px;
+        position: absolute;
+        top: 150px;
+        left: 0;
+        margin: 5px 0; /* Add space between buttons */
+    }
+
+    .happy-new-year-message > * {
+        font-size: 1rem; /* Adjust general text size for better fitting */
+    }
+}
+  
