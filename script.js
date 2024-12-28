@@ -236,8 +236,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check if playbtn exists
         if (!playbtn) return;      
     
-        if (date > 27) {
+        if (date >= 27) {
             hbdDiv.style.display = "none";
+            PlayXmasvidBtn.disabled = true;
         }
     
         playbtn.onclick = function () {
@@ -259,14 +260,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     
-
-    function stopHtbd() {
-        if(currentHbd && !currentHbd.paused) {
-            currentHbd.pause();
-            currentHbd.currentTime = 0;
-            document.querySelector('.control-heartfelt button').textContent = (currentLanguage === "italian") ? "Gioca" : "Play";
-        }
-    }
 
     function updateCountdown() {
         // Set the target date for Christmas (midnight of December 25, 2024, UTC)
@@ -351,6 +344,8 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.control-heartfelt button').textContent = (currentLanguage === "italian") ? "Gioca" : "Play";
             isPlayingHbd = false;
         }
+
+       
         
         if (switchElement.classList.contains('toggled')) {
             languageLabel.textContent = 'IT'; // Change text to Italian
@@ -666,7 +661,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentDay = currentDate.getDate();
         const currentMonth = currentDate.getMonth(); // 0-based, so December is 11
 
-        if(currentMonth === 11 &&  currentDay === 27) {
+        if(currentMonth === 11 &&  currentDay >= 27) {
 
             document.querySelector('.video-wish-merry-overlay').style.display = "none";
             alert(currentLanguage === "italian" ? "Buon Natale e Felice Anno Nuovo!" : "Christmas is over. Wishing you a Happy New Year!");
@@ -787,7 +782,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentMonth = currentDate.getMonth(); // 0-based, so December is 11
     
         // If the current date is December 27, remove the .personal-card-container
-        if (currentMonth === 11 && currentDay === 27) {
+        if (currentMonth === 11 && currentDay >= 27) {
             const personalCardContainer = document.querySelector('.personal-card-container');
             if (personalCardContainer) {
                 personalCardContainer.style.display = "none"; // Hide the container
