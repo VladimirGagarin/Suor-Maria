@@ -54,6 +54,11 @@ header > * {
     z-index: 2;
 }
 
+.top-lights.year header {
+    margin-top: 200px;
+
+}
+
 /* Top Header Styling */
 .top-header {
     display: flex;
@@ -258,6 +263,16 @@ header > * {
   background-color: rgb(38, 57, 77);
   padding: 10px;
   margin-bottom: 30px;
+}
+
+.top-lights.year{
+    color: #206cd0;
+    padding: 10px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
 }
 
 .lightrope {
