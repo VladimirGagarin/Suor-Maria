@@ -1779,7 +1779,6 @@ header.stayFixed main {
     height: 60vh;
     width: 96%;
     margin-top: 60px;
-    padding: 20px;
     background-color: #f0f8ff; /* Light blue fallback */
     background-image: url('wow.jpg'), linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)); /* Overlay gradient */
     background-position: center;
@@ -1809,7 +1808,44 @@ header.stayFixed main {
   
   .happy-new-year-message .displayed-message {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    padding: 20px;
+    color: #fff;
+    border-radius: 10px;
+    text-align: center;
+    overflow: hidden;
   }
+
+  .happy-new-year-message .displayed-message::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+  }
+
+  .happy-new-year-message .displayed-message .bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video covers the area without distortion */
+    z-index: -1; /* Keeps the video behind the text */
+}
+
+.happy-new-year-message .displayed-message > * {
+    z-index: 2;
+    position: relative;
+}
   
   .happy-new-year-message .hidden-message {
     display: none; /* Initially hidden */
@@ -1820,6 +1856,7 @@ header.stayFixed main {
   }
 
   .happy-new-year-message.festive{
+    padding: 20px;
     height: auto;
   }
   
@@ -1932,4 +1969,88 @@ header.stayFixed main {
         font-size: 1rem; /* Adjust general text size for better fitting */
     }
 }
-  
+
+/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Music Corner Styling */
+.music-corner {
+    width: 97%;
+    margin: 20px auto;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.music-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+}
+
+.music-container{
+    display: grid;
+    grid-template-columns: 1 1fr;
+    gap: 20px;
+}
+
+.music-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    height: 40vh;
+    position: relative;
+}
+
+.music-content:hover {
+    background-color: #e8f5e9;
+}
+
+.cornered-control {
+    font-size: 20px;
+    color: #2196f3;
+    cursor: pointer;
+    margin-right: 10px;
+    position: absolute;
+    z-index: 3;
+    top:10px;
+    left:10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #45a049;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.cornered-control:hover {
+    color: #0b7dda;
+}
+
+.lyrics-content {
+    font-size: 14px;
+    color: #555;
+    flex: 1;
+    text-align: left;
+    margin-left: 10px;
+    display: none; /* Hidden by default */
+}
+
+/* Accessibility */
+.cornered-control:focus {
+    outline: 2px dashed #2196f3;
+    outline-offset: 2px;
+}
