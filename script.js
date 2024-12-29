@@ -1117,6 +1117,24 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             // Stop the countdown and display the New Year message
             clearInterval(countdownYear);
+
+            // Fallback text after countdown ends
+            countdownElement.textContent = 
+                (currentLanguage === "italian") 
+                    ? "Felice Anno Nuovo! Goditi la Giornata!" 
+                    : "Happy New Year! Enjoy the Day!";
+
+            timerElement.textContent = 
+                (currentLanguage === "italian") 
+                    ? "Felice Anno Nuovo! Goditi la Giornata!" 
+                    : "Happy New Year! Enjoy the Day!";
+
+            document.querySelector('.count-down-timer p').textContent = 
+                (currentLanguage === "italian") 
+                    ? "Il conto alla rovescia è finito." 
+                    : "Countdown is over.";
+
+
             displayNewYearsMessage();
             displayExmasvideo();
         }
