@@ -227,6 +227,9 @@ document.addEventListener('DOMContentLoaded', function () {
     function checkToday() {
         const today = new Date();
         const date = today.getDate();
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth();
+        const currentDay = today.getDate();
         
         // Check if hbdDiv exists
         if (!hbdDiv) return;
@@ -236,9 +239,15 @@ document.addEventListener('DOMContentLoaded', function () {
         // Check if playbtn exists
         if (!playbtn) return;      
     
-        if (date >= 27) {
+        if (currentMonth >= 11 && date >= 27) {
             hbdDiv.style.display = "none";
             PlayXmasvidBtn.disabled = true;
+        }
+
+        
+
+        if (currentMonth >= 0 && currentDay >= 1 && currentYear === 2025) {
+            PlayXmasvidBtn.disabled = false;
         }
     
         playbtn.onclick = function () {
@@ -294,7 +303,17 @@ document.addEventListener('DOMContentLoaded', function () {
         // Update the timer element with language logic
         timerElement.textContent = `${days} ${daysText} : ${formatTime(hours)} ${hoursText} : ${formatTime(minutes)} ${minutesText} : ${formatTime(seconds)} ${secondsText}`;
         
+
+        const today = new Date();
+        const date = today.getDate();
+        const currentYear = today.getFullYear();
+        const currentMonth = today.getMonth();
+
+        if (currentMonth >= 11 && date >= 27 && currentYear === 2025) {
+            hbdDiv.style.display = "none";
+            PlayXmasvidBtn.disabled = true;
         }
+    }
     
 
     // Function to format numbers (e.g., 5 -> 05)
@@ -660,15 +679,30 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentDate = new Date();
         const currentDay = currentDate.getDate();
         const currentMonth = currentDate.getMonth(); // 0-based, so December is 11
+        const currentYear = currentDate.getFullYear();
 
+        const prefVid = document.querySelector('.video-content video');
+        if (!prefVid) return; // Ensure the video element exists
+
+        const playVidBtn = document.querySelector('.video-controls button.play');
+        const muteVidBtn = document.querySelector('.video-controls button.mute');
+        const looadingGiv = document.querySelector('.loading-spinner');
+        let isplayinVid = false;
+        let isMuted = false;
+
+        if (currentMonth >= 0 && currentDay >= 1 && currentYear >= 2025) {
+            prefVid.src =  (currentLanguage === "italian") ? "itnewyear2025.mp4" : "ennewyear2025.mp4"; // New video for Jan 1, 2025    
+        }
+        
         if(currentMonth === 11 &&  currentDay >= 27) {
 
             document.querySelector('.video-wish-merry-overlay').style.display = "none";
-            alert(currentLanguage === "italian" ? "Buon Natale e Felice Anno Nuovo!" : "Christmas is over. Wishing you a Happy New Year!");
+            //alert(currentLanguage === "italian" ? "Buon Natale e Felice Anno Nuovo!" : "Christmas is over. Wishing you a Happy New Year!");
             PlayXmasvidBtn.disabled = true;
             return;
         }
         
+
 
         if(currentHbd && !currentHbd.paused) {
             currentHbd.pause();
@@ -677,15 +711,9 @@ document.addEventListener('DOMContentLoaded', function () {
             isPlayingHbd = false;
         }
 
-        const prefVid = document.querySelector('.video-content video');
-        const playVidBtn = document.querySelectorAll('.video-controls button')[0];
-        const muteVidBtn = document.querySelectorAll('.video-controls button')[1];
-        const  looadingGiv = document.querySelector('.loading-spinner');
-
-        let isplayinVid = false;
-        let isMuted = false;
 
         prefVid.src = (currentLanguage === "italian") ? "itvid.mp4" : "envid.mp4";
+
         prefVid.addEventListener("loadedmetadata", () => {
             if(prefVid.readyState > 2) {
                 document.querySelector('.video-wish-merry-overlay').style.display = "flex";
@@ -873,6 +901,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
             wordsList.appendChild(wordElement);
         });
+
+        const currentDate = new Date();
+        const currentDay = currentDate.getDate();
+        const currentMonth = currentDate.getMonth(); // 0-based, so December is 11
+        const currentYear = currentDate.getFullYear();
+
+        if (currentMonth >= 0 && currentDay >= 1 && currentYear >= 2025) {
+            document.querySelector('.auth-page').classList.add('newYear');
+            document.querySelector('.auth-page').style.backgroundImage = `url('${(currentLanguage === "italian") ? "it_year.gif" : "new-year.gif"}')`;
+        }
     }
 
     // Function to allow words to be dropped into the target
@@ -1038,7 +1076,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function startNewYearsCountDown() {
         
         const countdownElement = document.querySelector('.displayed-message h3');
-        
+        document.querySelector('.auth-page').classList.add('newYear');
+
         // Ensure the DOM element exists
         if (!countdownElement) {
             console.error('Countdown element not found in the DOM.');
@@ -1067,13 +1106,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 `${hours < 10 ? "0" : ""}${hours} ${hoursText} : ` +
                 `${minutes < 10 ? "0" : ""}${minutes} ${minutesText} : ` +
                 `${seconds < 10 ? "0" : ""}${seconds} ${secondsText}`;
+            
+            timerElement.textContent = 
+                `${days < 10 ? "0" : ""}${days} ${daysText} : ` +
+                `${hours < 10 ? "0" : ""}${hours} ${hoursText} : ` +
+                `${minutes < 10 ? "0" : ""}${minutes} ${minutesText} : ` +
+                `${seconds < 10 ? "0" : ""}${seconds} ${secondsText}`;
+
+                document.querySelector('.count-down-timer p').textContent = (currentLanguage === "italian") ? "Conto Alla Rovescia Per Il Nuovo Anno" : "CountDown To Happy New Year" ;
         } else {
             // Stop the countdown and display the New Year message
             clearInterval(countdownYear);
             displayNewYearsMessage();
+            displayExmasvideo();
         }
     }
-    
     
 
     function  displayNewYearsMessage() {
@@ -1082,6 +1129,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.happy-new-year-message').classList.add('festive');
         document.querySelector('.new-year-heartfelt-message').classList.toggle('glowing', isPlayingNewYearWish);
         const username = document.querySelector('.hidden-message .center-message h3');
+
+        document.querySelector('.auth-page').classList.add('newYear');
 
         if (!currentUser) {
             username.textContent = (currentLanguage === "italian") ? "Amico/a" : "You";
@@ -1118,9 +1167,14 @@ document.addEventListener('DOMContentLoaded', function () {
                   });                  
             }.bind(this);
         }
+
+        timerElement.textContent = (currentLanguage === "italian") ? "Felice Anno Nuovo!" : "Happy New Year";
+        document.querySelector('.top-lights').innerHTML = '';
+        document.querySelector('.top-lights').innerHTML = `<h3>${(currentLanguage === "italian") ? "Felice Anno Nuovo!" : "Happy New Year"} ${(currentLanguage === "italian") ? (currentUser ?? "Amico/a") : (currentUser ?? "Friend")}</h3>`;
+        document.querySelector('.top-lights').classList.add('year');
     }
 
-    
+    const newYearMsg = "As we step into this new year, let us reflect on the journey we've shared, the challenges we've overcome, and the blessings we\n've received. May this new year bring with it a renewal of hope, a deepening of faith, and a sense of peace that transcends all. May our hearts be open to love, kindness, and forgiveness, and may we be instruments of joy and compassion to all those we encounter. Let us walk forward in trust, knowing that with each new day, God walks with us. Wishing you all a blessed and joyous New Year, filled with His grace and endless blessings."
 });
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
