@@ -1685,7 +1685,7 @@ header.stayFixed main {
 .footer{
     position: relative;
     width: 96%; /* Responsive width */
-    background-color: transparent;
+    background-color: rgba(38, 57, 77, 0.6);
     margin-top: 50px;
     display: flex;
     align-items: center;
@@ -1693,11 +1693,36 @@ header.stayFixed main {
     padding: 20px;
     z-index: 3;
     flex-direction: column;
+    position: relative;
+    background-image: url('wow.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+}
+
+.footer::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Subtle overlay for readability */
+    z-index: 1;
+    border-radius: 8px;
+}
+
+.footer > * {
+    position: relative;
+    z-index: 2;
 }
 .footer h2{
     text-align: center;
     font-size: 1.8rem;
+    color: #f9f9f9;
 }
+
 .trailer {
     position: relative;
     width: 60%; /* Responsive width */
@@ -1707,6 +1732,7 @@ header.stayFixed main {
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    background-color: rgba(8, 69, 235, 0.4);
 }
 
 .trailer iframe {
@@ -1714,6 +1740,7 @@ header.stayFixed main {
     height: auto;
     aspect-ratio: 16 / 9; /* Maintain proper scaling */
     border-radius: 10px;
+    background-color: rgba(8, 69, 235, 0.4);
 }
 
 .waiting-overlay {
@@ -1738,16 +1765,19 @@ header.stayFixed main {
     font-size: 1.8rem;
 }
 
+.waiting-overlay.show {
+    display:flex; /* Show when needed */
+}
 
 /* Media Query for screens 768px or less */
 @media (max-width: 800px) {
     .footer {
-        width: 95%; /* Full width */
-        padding: 15px; /* Adjust padding for smaller screens */
+        width: 98%; /* Full width */
+        padding: 10px; /* Adjust padding for smaller screens */
     }
 
     .trailer {
-        width: 98%; /* Adjust trailer width for small screens */
+        width: 100%; /* Adjust trailer width for small screens */
         margin-top: 30px; /* Adjust margin */
     }
 
@@ -1777,7 +1807,7 @@ header.stayFixed main {
     flex-direction: column;
     position: relative;
     height: 60vh;
-    width: 96%;
+    width: 99%;
     margin-top: 60px;
     background-color: #f0f8ff; /* Light blue fallback */
     background-image: url('wow.jpg'), linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)); /* Overlay gradient */
@@ -1814,7 +1844,7 @@ header.stayFixed main {
     flex-direction: column;
     position: relative;
     height: 100%;
-    padding: 20px;
+    padding: 5px;
     color: #fff;
     border-radius: 10px;
     text-align: center;
@@ -1924,7 +1954,7 @@ header.stayFixed main {
 
 @media (max-width: 800px) {
     .happy-new-year-message {
-        width: 94%;
+        width: 100%;
         min-height: 30vh;
         height: auto;
         margin-top: 40px;
@@ -1973,20 +2003,24 @@ header.stayFixed main {
 
 /* Music Corner Styling */
 .music-corner {
-    width: 97%;
+    width: 98%;
     margin: 20px auto;
-    padding: 15px;
     background: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
+    overflow: hidden;
+    border: 1px solid #0b7dda;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .music-title {
     text-align: center;
-    font-size: 24px;
-    margin-bottom: 15px;
-    color: #333;
+    font-size: 3rem;
+    color: #206cd0;
     font-weight: bold;
 }
 
@@ -1994,6 +2028,8 @@ header.stayFixed main {
     display: grid;
     grid-template-columns: 1 1fr;
     gap: 20px;
+    width: 90%;
+    padding: 10px;
 }
 
 .music-content {
@@ -2003,53 +2039,287 @@ header.stayFixed main {
     flex-direction: column;
     padding: 10px 15px;
     margin-bottom: 10px;
-    background: #fff;
+    background: #005f73;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease;
     cursor: pointer;
-    height: 40vh;
+    min-height: 60vh;
     position: relative;
+    border: 1px solid #ffe4b5;
+    overflow: hidden;
+    background-image: url('mary.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
+.music-content::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+}
+
+.music-content > *{
+    position: relative;
+    z-index: 2;
+}
 .music-content:hover {
-    background-color: #e8f5e9;
+    background-color: #206cd0;
+}
+
+.music-content.isFullscreen {
+    background-color: rgba(0, 0, 0, 0.7);
+    background-image: url('wow.jpg');
 }
 
 .cornered-control {
-    font-size: 20px;
-    color: #2196f3;
+    font-size: 2.4rem;
+    color: #f9f9f9;
     cursor: pointer;
-    margin-right: 10px;
     position: absolute;
     z-index: 3;
     top:10px;
     left:10px;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
-    background-color: #45a049;
+    background-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: color 0.3s ease;
+    border: 1px solid #f9f9f9;
 }
 
 .cornered-control:hover {
     color: #0b7dda;
+    background-color: #f9f9f9;
 }
 
 .lyrics-content {
-    font-size: 14px;
-    color: #555;
-    flex: 1;
-    text-align: left;
-    margin-left: 10px;
-    display: none; /* Hidden by default */
+    color: #f9f9f9;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-transform: capitalize;
+    position: relative;
+    text-align: center;
+    padding: 20px;
+}
+
+.music-content.isFullscreen .lyrics-content {
+    padding: 0;
 }
 
 /* Accessibility */
 .cornered-control:focus {
-    outline: 2px dashed #2196f3;
-    outline-offset: 2px;
+    outline: 2px dashed gold;
+    outline-offset: 3px;
+}
+
+/* Lyrics Content */
+.lyrics-content .lyrics-title {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.music-content.isFullscreen .lyrics-content .lyrics-title {
+    display: none;
+}
+
+.lyrics-content .lyrics-title h3 {
+    font-size: 4rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background: linear-gradient(to right, #f5d904 0%, #b704f2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle shadow for better readability */
+    color: transparent; /* Fallback for browsers that don't support background-clip */
+}
+
+
+/* Hidden Lyrics Content */
+.hidden-lyrics-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2; /* Ensure it's above the video */
+    transition: opacity 0.5s ease-in-out, visibility 0.5s;
+}
+
+.music-content.isFullscreen .hidden-lyrics-content {
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+}
+
+/* Lyrics Text Styling */
+.lyrics-text {
+    color: #fff;
+    font-size: 4rem;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    z-index: 3; /* Above the video */
+    font-weight: bold;
+    font-size: 4rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background: linear-gradient(to right, #78f504 0%, #02faf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1); /* Subtle shadow for better readability */
+    color: transparent; /* Fallback for browsers that don't support background-clip */
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+
+.zoom-in-animation {
+    animation: zoomIn 4s ease-out 0s 1 normal forwards;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Add a subtle text shadow */
+}
+
+@keyframes zoomIn {
+    0% {
+        transform: scale(0) perspective(500px) rotateX(60deg) rotateY(60deg); /* 3D effect on start */
+    }
+    100% {
+        transform: scale(2) perspective(500px) rotateX(0deg) rotateY(0deg); /* 3D effect reset */
+    }
+}
+
+/* Video Background Styling */
+.video-as-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1; /* Behind the lyrics */
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.video-as-bg video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover entire area */
+}
+
+
+.video-as-bg .loading-video-anim {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.spinner-spinner {
+    border: 8px solid transparent; /* Light gray background */
+    border-top: 8px solid #f3f3f3; /* Blue color for the spinner */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+/* Spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Styles for Small Screens */
+@media (max-width: 800px) {
+    .music-corner {
+        width: 97%;
+        margin: 10px auto;
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+    }
+
+    .music-title {
+        font-size: 1.4rem;
+    }
+
+    .music-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .music-content {
+        padding: 10px;
+        margin-bottom: 10px;
+        min-height: 40vh;
+        font-size: 0.9rem;
+        border-radius: 6px;
+    }
+
+    .cornered-control {
+        width: 40px;
+        height: 40px;
+        font-size: 1.8rem;
+        top: 10px;
+        left: 10px;
+        background-color: #f9f9f9;
+        color: #0b7dda;
+    }
+
+    .lyrics-content {
+        padding: 10px;
+        font-size: 1.2rem;
+    }
+
+    .lyrics-text {
+        font-size: 2.5rem;
+        padding: 10px;
+    }
+
+    .hidden-lyrics-content {
+        flex-direction: column;
+        padding: 10px;
+        font-size: 1.5rem;
+    }
+
+    .video-as-bg {
+        height: 100%;
+    }
+
+    .spinner-spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 6px;
+    }
 }
