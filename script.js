@@ -17,6 +17,13 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentNewYearWish =  null;
     let isPlayingHbd = false;
     let currentHbd = null;
+    let currentMusicRefreshment = {
+        audio: null,
+        btn: null,
+        vid: null,
+        lyricsContainer: null,
+    };
+
 
     PlayXmasvidBtn.disabled = true;
     const hbdDiv = document.querySelector('.control-heartfelt');
@@ -363,8 +370,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.control-heartfelt button').textContent = (currentLanguage === "italian") ? "Gioca" : "Play";
             isPlayingHbd = false;
         }
-
-       
+        
         
         if (switchElement.classList.contains('toggled')) {
             languageLabel.textContent = 'IT'; // Change text to Italian
@@ -496,6 +502,8 @@ document.addEventListener('DOMContentLoaded', function () {
             currentNewYearWish.pause();
         }
         
+        closeCurrentMusicRefreshments();
+
         currentLoveMsg.play();
        
         playLoveMsg.innerHTML = "&#10074;&#10074;"
@@ -615,6 +623,8 @@ document.addEventListener('DOMContentLoaded', function () {
             isPlayingHbd = false;
         }
 
+        closeCurrentMusicRefreshments();
+
         setTimeout(function() {
             // Ensure the audio is loaded before playing
             content.audio.addEventListener('loadedmetadata', () => {
@@ -711,6 +721,7 @@ document.addEventListener('DOMContentLoaded', function () {
             isPlayingHbd = false;
         }
 
+        closeCurrentMusicRefreshments();
 
         prefVid.src = (currentLanguage === "italian") ? "itvid.mp4" : "envid.mp4";
 
@@ -1066,6 +1077,21 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    const iframe = document.getElementById("trailer-video");
+    const overlay = document.querySelector(".waiting-overlay");
+
+    
+
+    // Listen for iframe load event
+    iframe.addEventListener("load", () => {
+        overlay.classList.remove("show");
+    });
+
+    // Listen for iframe error event (not always supported directly)
+    iframe.addEventListener("error", () => {
+        overlay.classList.add("show"); // Show overlay on error
+    });
+
     function showNewYearsCountdown() {
         // Start the countdown
         countdownYear = setInterval(startNewYearsCountDown, 1000);
@@ -1175,6 +1201,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.innerHTML = '&#9654';
             }
 
+            if(currentMusicRefreshment && !currentMusicRefreshment.paused) {
+                currentMusicRefreshment.pause();
+            }
+
             currentNewYearWish.onended = function () {
                 isPlayingNewYearWish = false;
                 document.querySelector('.new-year-heartfelt-message').classList.toggle('glowing', isPlayingNewYearWish);
@@ -1191,6 +1221,329 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.top-lights').innerHTML = `<h3>${(currentLanguage === "italian") ? "Felice Anno Nuovo!" : "Happy New Year"} ${(currentLanguage === "italian") ? (currentUser ?? "Amico/a") : (currentUser ?? "Friend")}</h3>`;
         document.querySelector('.top-lights').classList.add('year');
     }
+
+    let isFullScreen = false;
+    let currentLyricIndex = 0;
+
+    const herosLyrics = [
+        { enText: "Your heart is a compass, forever guiding you toward the beauty and truth that define your path.", itText: "Il tuo cuore è una bussola, che ti guida sempre verso la bellezza e la verità che definiscono il tuo cammino.", start: "0", end: "16" },
+        { enText: "Within your heart lies an infinite well of strength, always ready to rise when you need it most.", itText: "Nel tuo cuore si trova un pozzo infinito di forza, sempre pronto a emergere quando ne hai più bisogno.", start: "17", end: "34" },
+        { enText: "The world is smaller", itText: "Il mondo è più piccolo", start: "35", end: "41" },
+        { enText: "Seconds are longer", itText: "I secondi sono più lunghi", start: "42", end: "48" },
+        { enText: "Embraces reach farther", itText: "Gli abbracci arrivano più lontano", start: "49", end: "59" },
+        { enText: "Hands hold harder", itText: "Le mani stringono più forte", start: "60", end: "67" },
+        { enText: "Eyes are bigger", itText: "Gli occhi sono più grandi", start: "68", end: "76" },
+        { enText: "Clearer we see", itText: "Più chiaramente vediamo", start: "77", end: "84" },
+        { enText: "That this is how we find out what we're made of", itText: "Che così scopriamo di cosa siamo fatti", start: "85", end: "93" },
+        { enText: "The hero in your heart", itText: "L'eroe nel tuo cuore", start: "94", end: "100" },
+        { enText: "Can never leave your side", itText: "Non può mai lasciarti", start: "101", end: "110" },
+    
+        { 
+            enText: "The heart blooms with love when nourished by kindness. - Sr. Mary Japheth", 
+            itText: "Il cuore fiorisce con l'amore quando è nutrito dalla gentilezza. - Suor Maria Japheth", 
+            start: "111", 
+            end: "122" 
+        },
+          
+        { enText: "The hero in your heart", itText: "L'eroe nel tuo cuore", start: "123", end: "126" },
+        { enText: "Can never leave your side", itText: "Non può mai lasciarti", start: "127", end: "130" },
+        { enText: "Locked within right until that moment you give up", itText: "Bloccato dentro fino al momento in cui ti arrendi", start: "131", end: "138" },
+        { enText: "The hero in your heart", itText: "L'eroe nel tuo cuore", start: "139", end: "147" },
+    
+        { enText: "Now this is where you find out what you're made of", itText: "Ora è qui che scopriamo di cosa siamo fatti", start: "148", end: "155" },
+        { enText: "The hero in your heart will never leave your side", itText: "L'eroe nel tuo cuore non ti lascerà mai", start: "156", end: "163" },
+        { enText: "Locked within right until that moment you give up", itText: "Bloccato dentro fino al momento in cui ti arrendi", start: "164", end: "173" },
+        { enText: "The hero in your heart never leaves your side", itText: "L'eroe nel tuo cuore non ti lascerà mai", start: "174", end: "180" },
+    
+        { enText: "I bet you didn't know", itText: "Scommetto che non lo sapevi", start: "181", end: "184" },
+        { enText: "The hero in your heart", itText: "L'eroe nel tuo cuore", start: "185", end: "188" },
+        { enText: "Has strength beyond the known", itText: "Ha una forza oltre il conosciuto", start: "189", end: "192" },
+        { enText: "And never leaves your side", itText: "E non ti lascia mai", start: "193", end: "196" },
+        { enText: "You're the hero in your heart", itText: "Sei l'eroe nel tuo cuore", start: "197", end: "203" },
+        { 
+            enText: "True strength is found in compassion and resilience. - Sr. Mary Japheth", 
+            itText: "La vera forza si trova nella compassione e nella resilienza. - Suor Maria Japheth", 
+            start: "204", 
+            end: "223" 
+        },
+          
+        { 
+            enText: `Thank you ${currentUser ?? "Friend"} for your unwavering support and love. Your kindness makes a world of difference. - Sr. Mary Japheth`, 
+            itText: `Grazie ${currentUser ?? "Amico/a"}per il tuo supporto e amore costanti. La tua gentilezza fa una grande differenza. - Suor Maria Japheth`, 
+            start: "224", 
+            end: "247" 
+          },
+          
+    ];
+    
+
+    const thouArt = [
+        { enText: "Oh Lord, my God", itText: "O Signore, mio Dio", start: "0", end: "5" },
+        { enText: "When I, in awesome wonder", itText: "Quando, in meraviglia stupenda", start: "5", end: "10" },
+        { enText: "Consider all the worlds Thy hands have made", itText: "Considero tutti i mondi che le Tue mani hanno fatto", start: "10", end: "15" },
+        { enText: "I see the stars, I hear the rolling thunder", itText: "Vedo le stelle, sento il tuono che rimbomba", start: "15", end: "20" },
+        { enText: "Thy power throughout the universe displayed", itText: "La Tua potenza manifestata nell'universo", start: "20", end: "25" },
+        { enText: "Then sings my soul, my Savior God to Thee", itText: "Allora canta l'anima mia, mio Salvatore Dio a Te", start: "25", end: "30" },
+        { enText: "How great Thou art, how great Thou art", itText: "Quanto sei grande, quanto sei grande", start: "30", end: "35" },
+        { enText: "Then sings my soul, my Savior God to Thee", itText: "Allora canta l'anima mia, mio Salvatore Dio a Te", start: "35", end: "40" },
+        { enText: "How great Thou art, how great Thou art", itText: "Quanto sei grande, quanto sei grande", start: "40", end: "45" },
+        { enText: "And when I think that God, His Son not sparing", itText: "E quando penso che Dio, non risparmiando Suo Figlio", start: "45", end: "50" },
+        { enText: "Sent Him to die, I scarce can take it in", itText: "Lo ha mandato a morire, faccio fatica a comprenderlo", start: "50", end: "55" },
+        { enText: "That on the cross, my burden gladly bearing", itText: "Che sulla croce, portando volentieri il mio peso", start: "55", end: "60" },
+        { enText: "He bled and died to take away my sin", itText: "Ha sanguinato e morì per togliere il mio peccato", start: "60", end: "65" },
+        { enText: "Then sings my soul, my Savior God to Thee", itText: "Allora canta l'anima mia, mio Salvatore Dio a Te", start: "65", end: "70" },
+        { enText: "How great Thou art, how great Thou art", itText: "Quanto sei grande, quanto sei grande", start: "70", end: "75" },
+        { enText: "Then sings my soul, my Savior God to Thee", itText: "Allora canta l'anima mia, mio Salvatore Dio a Te", start: "75", end: "80" },
+        { enText: "How great Thou art, how great Thou art", itText: "Quanto sei grande, quanto sei grande", start: "80", end: "85" },
+        { enText: "When Christ shall come, with shout of acclamation", itText: "Quando Cristo verrà, con grido di acclamazione", start: "85", end: "90" },
+        { enText: "And take me home, what joy shall fill my heart", itText: "E mi porterà a casa, che gioia riempirà il mio cuore", start: "90", end: "95" },
+        { enText: "Then I shall bow, in humble adoration", itText: "Allora mi inchinerò, in umile adorazione", start: "95", end: "100" },
+        { enText: "And then proclaim, my God, how great Thou art", itText: "E poi proclamerò, mio Dio, quanto sei grande", start: "100", end: "105" },
+        { enText: "Then sings my soul, my Savior God to Thee", itText: "Allora canta l'anima mia, mio Salvatore Dio a Te", start: "105", end: "110" },
+        { enText: "How great Thou art, how great Thou art", itText: "Quanto sei grande, quanto sei grande", start: "110", end: "115" },
+        { enText: "Then sings my soul, my Savior God to Thee", itText: "Allora canta l'anima mia, mio Salvatore Dio a Te", start: "115", end: "120" },
+        { enText: "How great Thou art, how great Thou art", itText: "Quanto sei grande, quanto sei grande", start: "120", end: "125" },
+        { enText: "How great Thou art, how great Thou art", itText: "Quanto sei grande, quanto sei grande", start: "125", end: "130" },
+    ];
+
+
+    const offeringLyrics = [];
+   
+
+    const musicCard = document.querySelector('.music-container .music-content')
+    const playSongIcon = musicCard.querySelector('.cornered-control');
+    const lyricsContainer = musicCard.querySelector('.hidden-lyrics-content .lyrics-text');
+    const dataMusic = musicCard.getAttribute('data-music');
+    const musicRefreshment = new Audio(dataMusic);
+    const vidSync = musicCard.querySelector('.hidden-lyrics-content .video-as-bg video');
+    const loadingAnim =  musicCard.querySelector('.hidden-lyrics-content .video-as-bg .loading-video-anim');
+
+   
+    playSongIcon.onclick = function () {
+        isFullScreen = !isFullScreen;
+        const lyricsSelection = herosLyrics;
+        const lang = currentLanguage ?? "english";
+        playMusicRefreshment(musicRefreshment, playSongIcon, isFullScreen,  vidSync, lyricsSelection, loadingAnim, lang, lyricsContainer);
+ 
+    }
+    
+
+    function playMusicRefreshment(currentAudio, playBtn, state, vid, lyricsArray, anim,lang, lyricsContainer) {
+        // Pause the currently playing audio if it's different
+        if (currentMusicRefreshment.audio && currentMusicRefreshment.audio !== currentAudio) {
+            currentMusicRefreshment.audio.pause();
+            currentMusicRefreshment.btn.innerHTML = '&#9654;'; // Reset icon to play
+            currentMusicRefreshment.vid.pause();
+            currentMusicRefreshment.vid = currentTime = 0;
+            currentMusicRefreshment.audio.currentTime = 0;
+            currentLyricIndex = 0; 
+            currentMusicRefreshment.lyricsContainer.innerHTML = '';
+        }
+    
+        // Update the global tracking variable
+        if (currentMusicRefreshment.audio === currentAudio && !currentMusicRefreshment.audio.paused) {
+            // If the same song is playing, pause it
+            currentMusicRefreshment.audio.pause();
+            currentMusicRefreshment.vid.pause();
+            currentMusicRefreshment.btn.innerHTML = '&#9654;';
+            currentMusicRefreshment.audio = null; // Reset
+            currentMusicRefreshment.btn = null;  // Reset
+            isFullScreen = false;
+
+        } else {
+            // Play the new song
+            currentAudio.play();
+            vid.play();
+            playBtn.innerHTML = '&#10074;&#10074;'; // Set icon to pause
+            currentMusicRefreshment.audio = currentAudio;
+            currentMusicRefreshment.btn = playBtn;
+            currentMusicRefreshment.vid = vid;
+            currentMusicRefreshment.lyricsContainer = lyricsContainer;
+        }
+
+        const musicContent = document.querySelector('.music-content');
+
+        if (state) {
+            if (musicContent.requestFullscreen) {
+                musicContent.requestFullscreen();
+            } else if (musicContent.mozRequestFullScreen) { // Firefox
+                musicContent.mozRequestFullScreen();
+            } else if (musicContent.webkitRequestFullscreen) { // Safari
+                musicContent.webkitRequestFullscreen();
+            } else if (musicContent.msRequestFullscreen) { // IE/Edge
+                musicContent.msRequestFullscreen();
+            }
+
+        } else {
+            // Exit fullscreen if it's already active
+            if (document.fullscreenElement) {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+
+            
+        }
+
+        musicContent.classList.toggle('isFullscreen', state);
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+
+                if(!currentMusicRefreshment) return;
+                // Stop audio and video if exiting fullscreen
+                currentMusicRefreshment.audio?.pause();
+                currentMusicRefreshment.vid?.pause();
+                currentMusicRefreshment.audio = null;
+                currentMusicRefreshment.vid = null;
+                currentMusicRefreshment.btn.innerHTML = '&#9654;'; // Reset play button
+                musicContent.classList.remove('isFullscreen'); // Reset fullscreen state
+                isFullScreen = false;
+            }
+        });
+
+        const activeAudio = currentMusicRefreshment.audio ?? currentAudio;
+        const currentVid = currentMusicRefreshment.vid ?? vid;
+
+        activeAudio.currentTime = currentVid.currentTime;
+
+        activeAudio.addEventListener('timeupdate', () => {
+           const lang = currentLanguage;
+            showLyrics(lyricsArray, activeAudio.currentTime, lang,lyricsContainer);
+        });
+
+        currentVid.addEventListener('stalled', () => {
+            anim.style.display = 'flex';
+            activeAudio.pause();
+        });
+
+        currentVid.addEventListener('error', () => {
+            anim.style.display = 'flex';
+        });
+
+        currentVid.addEventListener('waiting', () => {
+            anim.style.display = 'flex';
+            activeAudio.pause();
+        });
+
+        currentVid.addEventListener('playing', () => {
+            anim.style.display = 'none';
+            activeAudio.play();
+        });
+
+        currentVid.addEventListener('canplay', () => {
+            anim.style.display = 'none';
+        });
+
+        currentVid.addEventListener('canplaythrough', () => {
+            anim.style.display = 'none';
+        });
+
+        currentVid.addEventListener('ended', () => {
+            // Exit fullscreen when the video ends
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
+            // Optionally, pause the audio
+            activeAudio.pause();
+            currentVid.pause();
+            currentVid.currentTime = 0;
+            activeAudio.currentTime = 0;
+            isFullScreen = false;
+            currentMusicRefreshment.btn.innerHTML = '&#9654;';
+            currentLyricIndex = 0;
+        });
+    }
+
+    function closeCurrentMusicRefreshments() {
+        if(currentMusicRefreshment){
+            currentMusicRefreshment.audio?.pause();
+            currentMusicRefreshment.btn.innerHTML = '&#9654;';
+            currentMusicRefreshment.audio.currentTime = 0;
+            currentMusicRefreshment.vid?.pause();
+            currentMusicRefreshment.vid = currentTime = 0;
+            isFullScreen = false;
+        }
+        
+        const lyricsElement = document.querySelector('.hidden-lyrics-content .lyrics-text');
+
+        lyricsElement.innerHTML = '';
+    }
+
+    let isLyricDisplayed = false; // Flag to track if lyrics have been shown
+
+    function showLyrics(arr, currenttime, lingua, lyricsElement) {
+        if (!lyricsElement) {
+            console.error('Lyrics display element not found.');
+            shownotification("Lyrics can't be shown");
+            return;  
+        }
+    
+        if(currentLyricIndex < arr.length){
+            const currentLyrics =  arr[currentLyricIndex];
+            const start = parseFloat(currentLyrics.start);
+            const end = parseFloat(currentLyrics.end);
+            const currentText = (lingua === "italian") ? currentLyrics.itText : currentLyrics.enText;
+            const textLength = currentText.length;
+            // Calculate duration
+            let duration = end - start;
+            // Adjust duration based on the length of the text
+            if (textLength < 23) {
+                duration -= 0; // Subtract 1 second for short texts
+            } else if (textLength >= 23) {
+                duration -= 2; // Subtract 2 seconds for longer texts
+            }          
+    
+            // Generate random degrees for rotation
+            const randomDegX = Math.floor(Math.random() * 360);
+            const randomDegY = Math.floor(Math.random() * 360);
+    
+            // Check if the current time is within the lyric's display window
+            if(currenttime >= start && currenttime <= end) {
+                if (!isLyricDisplayed) { // Only display the lyrics if they haven't been shown yet
+                    lyricsElement.textContent = (lingua === "italian") ? currentLyrics.itText : currentLyrics.enText;
+    
+                    // Apply animation
+                    lyricsElement.classList.remove('zoom-in-animation'); // Remove class if it exists
+    
+                    // Set dynamic animation duration based on the lyric duration
+                    lyricsElement.style.animationDuration = `${duration}s`;
+    
+                    // Dynamically set the keyframes for the random rotation
+                    const keyframes = `
+                        @keyframes zoomIn {
+                            0% {
+                                transform: scale(0) perspective(500px) rotateX(${randomDegX}deg) rotateY(${randomDegY}deg); /* Random rotation */
+                            }
+                            100% {
+                                transform: scale(${textLength <= 23 ? 2 : 1}) perspective(500px) rotateX(0deg) rotateY(0deg); /* Reset rotation */
+                            }
+                        }
+                    `;
+    
+                    // Inject the keyframes into the document's style
+                    const styleSheet = document.styleSheets[0]; // Use the first stylesheet in the document
+                    styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+    
+                    void lyricsElement.offsetWidth; // Trigger reflow to restart animation
+                    lyricsElement.classList.add('zoom-in-animation');
+    
+                    isLyricDisplayed = true; // Mark the lyric as displayed
+                }
+            } else if (currenttime > end) {
+                currentLyricIndex++;
+                isLyricDisplayed = false; // Reset flag to allow the next lyric to appear
+            }
+        }
+    }
+    
+
 
     const newYearMsg = "As we step into this new year, let us reflect on the journey we've shared, the challenges we've overcome, and the blessings we\n've received. May this new year bring with it a renewal of hope, a deepening of faith, and a sense of peace that transcends all. May our hearts be open to love, kindness, and forgiveness, and may we be instruments of joy and compassion to all those we encounter. Let us walk forward in trust, knowing that with each new day, God walks with us. Wishing you all a blessed and joyous New Year, filled with His grace and endless blessings."
 });
