@@ -501,8 +501,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if(currentNewYearWish){
             currentNewYearWish.pause();
         }
-        
-        closeCurrentMusicRefreshments();
+
 
         currentLoveMsg.play();
        
@@ -623,7 +622,6 @@ document.addEventListener('DOMContentLoaded', function () {
             isPlayingHbd = false;
         }
 
-        closeCurrentMusicRefreshments();
 
         setTimeout(function() {
             // Ensure the audio is loaded before playing
@@ -721,7 +719,7 @@ document.addEventListener('DOMContentLoaded', function () {
             isPlayingHbd = false;
         }
 
-        closeCurrentMusicRefreshments();
+
 
         prefVid.src = (currentLanguage === "italian") ? "itvid.mp4" : "envid.mp4";
 
@@ -1461,20 +1459,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    function closeCurrentMusicRefreshments() {
-        if(currentMusicRefreshment){
-            currentMusicRefreshment.audio?.pause();
-            currentMusicRefreshment.btn.innerHTML = '&#9654;';
-            currentMusicRefreshment.audio.currentTime = 0;
-            currentMusicRefreshment.vid?.pause();
-            currentMusicRefreshment.vid = currentTime = 0;
-            isFullScreen = false;
-        }
-        
-        const lyricsElement = document.querySelector('.hidden-lyrics-content .lyrics-text');
-
-        lyricsElement.innerHTML = '';
-    }
+   
+    
 
     let isLyricDisplayed = false; // Flag to track if lyrics have been shown
 
