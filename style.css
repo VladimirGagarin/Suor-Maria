@@ -2323,3 +2323,129 @@ header.stayFixed main {
         border-width: 6px;
     }
 }
+
+
+/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Wrapper for the video highlight */
+.video-highlight {
+    position: fixed; /* Use absolute positioning */
+    top: 50%;
+    left: 50%; /* Start off-screen to the left */
+    width: 100%;
+    height: 80%;
+    transform: translate(-50%, -50%);
+    max-width: 800px;
+    background-color: black;
+    overflow: hidden;
+    z-index: 1000;
+    border-radius: 10px;
+    transition: left 1s ease; /* Smooth sliding transition */
+    display:none;
+}
+
+/* Video element */
+.video-highlight video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.video-highlight video.stalled {
+    opacity: 0.4;
+    filter: grayscale(50%);
+}
+
+/* Play button in the center */
+.overlay-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    color: #005f73;
+    z-index: 2; /* Ensure it's on top */
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+/* Play button hover effect */
+.overlay-play:hover {
+    opacity: 1;
+}
+
+/* Loading spinner styling */
+.loading-vid-highlight {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1; /* Below the play button */
+}
+
+/* Spinner design */
+.rotating-spinner {
+    border: 6px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #ff0000;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@media (max-width: 800px) {
+    /* Wrapper for the video highlight */
+    .video-highlight {
+        width: 90%; /* Adjust width for small screens */
+        height: auto; /* Let height adjust naturally */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: none; /* Remove max-width restriction */
+        border-radius: 5px; /* Slightly reduce border radius */
+        transition: left 1s ease, top 1s ease; /* Smooth sliding and reposition */
+    }
+
+    /* Video element */
+    .video-highlight video {
+        width: 100%;
+        height: auto; /* Maintain aspect ratio */
+        object-fit: cover; /* Ensure video fits without cropping */
+    }
+
+    /* Play button */
+    .overlay-play {
+        font-size: 30px; /* Reduce size on small screens */
+        top: auto;
+        bottom: 20%; /* Position near the bottom */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #f9f9f9;
+        background-color: black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+    }
+
+    /* Loading spinner styling */
+    .loading-vid-highlight {
+        width: 40px;
+        height: 40px; /* Reduce spinner size */
+    }
+
+    /* Spinner design */
+    .rotating-spinner {
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-top: 3px solid #ff0000;
+        width: 40px; /* Match reduced size */
+        height: 40px;
+    }
+}
