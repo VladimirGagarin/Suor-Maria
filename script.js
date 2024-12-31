@@ -768,6 +768,7 @@ document.addEventListener('DOMContentLoaded', function () {
             isplayinVid = false;
             playVidBtn.innerHTML = "&#9654;";
             looadingGiv.style.display = "none";
+            displayGoodBye2024();
         }
 
         prefVid.addEventListener('waiting', function() {
@@ -1529,7 +1530,40 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
     
+    function displayGoodBye2024() {
+        document.querySelector('.video-highlight').style.display = "block";
+        const  playButton = document.querySelector('.video-highlight .overlay-play')
+        const  vid = document.querySelector('.video-highlight video')
+        const loading = document.querySelector('.video-highlight .loading-vid-highlight');
 
+        playButton.onclick = function () {
+            playButton.style.display = "none";
+            vid.play();
+        }
+
+        vid.addEventListener('stalled', () => {
+            loading.style.display = "flex";
+            vid.classList.add('stalled');
+        });
+
+        vid.addEventListener('waiting', () => {
+            loading.style.display = "flex";
+            vid.classList.add('stalled');
+        });
+
+        vid.addEventListener('playing', () => {
+            loading.style.display = "none";
+            vid.classList.remove('stalled');
+        });
+
+        vid.addEventListener('ended', () => {
+            loading.style.display = "none";
+            vid.classList.remove('stalled');
+            document.querySelector('.video-highlight').style.display = "none";
+        });
+    }
+
+   
 
     const newYearMsg = "As we step into this new year, let us reflect on the journey we've shared, the challenges we've overcome, and the blessings we\n've received. May this new year bring with it a renewal of hope, a deepening of faith, and a sense of peace that transcends all. May our hearts be open to love, kindness, and forgiveness, and may we be instruments of joy and compassion to all those we encounter. Let us walk forward in trust, knowing that with each new day, God walks with us. Wishing you all a blessed and joyous New Year, filled with His grace and endless blessings."
 });
