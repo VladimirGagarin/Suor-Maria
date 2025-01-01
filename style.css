@@ -2330,12 +2330,10 @@ header.stayFixed main {
 /* Wrapper for the video highlight */
 .video-highlight {
     position: fixed; /* Use absolute positioning */
-    top: 50%;
-    left: 50%; /* Start off-screen to the left */
-    width: 100%;
-    height: 80%;
-    transform: translate(-50%, -50%);
-    max-width: 800px;
+    top: 0;
+    left: 0; /* Start off-screen to the left */
+    width: 98%;
+    height: 100%;
     background-color: black;
     overflow: hidden;
     z-index: 1000;
@@ -2405,12 +2403,10 @@ header.stayFixed main {
 @media (max-width: 800px) {
     /* Wrapper for the video highlight */
     .video-highlight {
-        width: 90%; /* Adjust width for small screens */
-        height: auto; /* Let height adjust naturally */
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: none; /* Remove max-width restriction */
+        width: 98%; /* Adjust width for small screens */
+        height: 100%; /* Let height adjust naturally */
+        top: 0;
+        left: 0;
         border-radius: 5px; /* Slightly reduce border radius */
         transition: left 1s ease, top 1s ease; /* Smooth sliding and reposition */
     }
@@ -2419,7 +2415,7 @@ header.stayFixed main {
     .video-highlight video {
         width: 100%;
         height: auto; /* Maintain aspect ratio */
-        object-fit: cover; /* Ensure video fits without cropping */
+        object-fit: fill; /* Ensure video fits without cropping */
     }
 
     /* Play button */
