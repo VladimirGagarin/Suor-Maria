@@ -1804,7 +1804,7 @@ header.stayFixed main {
 
 /********************************************************************************************************************************************************************/
 .happy-new-year-message {
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -1881,7 +1881,7 @@ header.stayFixed main {
 }
   
   .happy-new-year-message .hidden-message {
-    display: none; /* Initially hidden */
+    display: flex; /* Initially hidden */
     flex-direction: column;
     align-items: center;
     background-color: rgba(255, 255, 255, 0);
