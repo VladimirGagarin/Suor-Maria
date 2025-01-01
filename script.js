@@ -824,9 +824,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const currentDate = new Date();
         const currentDay = currentDate.getDate();
         const currentMonth = currentDate.getMonth(); // 0-based, so December is 11
+        const currentYear = currentDate.getFullYear()
     
         // If the current date is December 27, remove the .personal-card-container
-        if (currentMonth === 11 && currentDay >= 27) {
+        if (currentMonth === 11 && currentDay >= 27 && currentYear === 2024) {
             const personalCardContainer = document.querySelector('.personal-card-container');
             if (personalCardContainer) {
                 personalCardContainer.style.display = "none"; // Hide the container
@@ -834,6 +835,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             showNewYearsCountdown();
             return; // Exit the function after hiding the container
+        }
+
+        // If it's January (month 0) of 2025, display the new year's message
+        if (currentYear === 2025 && currentMonth === 0) {
+            displayNewYearsMessage();
+            return;
         }
 
         document.querySelector('.personal-card-container').style.display = "flex";
@@ -880,6 +887,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
+        displayNewYearsMessage();
+       
     }
 
     const words = ['sempre', 'sia', 'lodato', 'deo', 'gratias'];
@@ -990,6 +999,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 shownotification((currentLanguage === "italian") ? `Bienvenuto! ${currentUser ?? "Amico/a"}` : `Welcome! ${currentUser ?? "Friend"}`);
                 
             }, 1500);
+
+           
 
         } else {
             // Provide feedback if the puzzle is not solved correctly
@@ -1173,6 +1184,7 @@ document.addEventListener('DOMContentLoaded', function () {
     
     function displayYearvideo () {
         document.querySelector('.video-wish-merry-overlay').style.display = "flex";
+        document.querySelector('.happy-new-year-message').classList.add('festive');
         const playVidBtn = document.querySelectorAll('.video-controls button')[0];
         const muteVidBtn = document.querySelectorAll('.video-controls button')[1];
         const looadingGiv = document.querySelector('.loading-spinner');
@@ -1181,7 +1193,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let isplayinVid = false;
         let isMuted = false;
       
-
+    
         prefVid.src = (currentLanguage === "italian") ? "itnewyear2025.mp4" : "ennewyear2025.mp4"; 
 
          playVidBtn.onclick = function () {
@@ -1255,10 +1267,37 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    document.querySelector('.hidden-message .center-message button').onclick = function () {
+        currentNewYearWish = (currentLanguage === 'italian') ? ityear : enyear;
+       isPlayingNewYearWish = !isPlayingNewYearWish;
+       document.querySelector('.new-year-heartfelt-message').classList.toggle('glowing', isPlayingNewYearWish);
+       
+       if(isPlayingNewYearWish) {
+           currentNewYearWish.play();
+           this.innerHTML = '&#10074;&#10074;';
+       }
+       else{
+           currentNewYearWish.pause();
+           this.innerHTML = '&#9654';
+       }
+
+       
+
+       currentNewYearWish.onended = function () {
+           isPlayingNewYearWish = false;
+           document.querySelector('.new-year-heartfelt-message').classList.toggle('glowing', isPlayingNewYearWish);
+           this.innerHTML = '&#9654';
+           window.scrollTo({
+               top: document.body.scrollHeight,
+               behavior: 'smooth'
+             });  
+             
+             displayYearvideo()
+       }.bind(this);
+   }
+   
+
     function  displayNewYearsMessage() {
-
-        displayYearvideo();
-
 
         let isPlayingNewYearWish = false;
         document.querySelector('.happy-new-year-message').classList.add('festive');
@@ -1277,6 +1316,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const ityear = new  Audio(document.querySelector('.new-year-heartfelt-message').getAttribute('data-ityearwish'));
 
         currentNewYearWish = (currentLanguage === 'italian') ? ityear : enyear;
+
 
         document.querySelector('.hidden-message .center-message button').onclick = function () {
              currentNewYearWish = (currentLanguage === 'italian') ? ityear : enyear;
@@ -1311,6 +1351,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.top-lights').innerHTML = '';
         document.querySelector('.top-lights').innerHTML = `<h3>${(currentLanguage === "italian") ? "Felice Anno Nuovo!" : "Happy New Year"} ${(currentLanguage === "italian") ? (currentUser ?? "Amico/a") : (currentUser ?? "Friend")}</h3>`;
         document.querySelector('.top-lights').classList.add('year');
+
+        displayYearvideo();
     }
 
     let isFullScreen = false;
@@ -1662,6 +1704,7 @@ document.addEventListener('DOMContentLoaded', function () {
             vid.currentTime = 0;
             playButton.style.display = "flex";
         });
+
     }
 
    
