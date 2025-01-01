@@ -1188,9 +1188,12 @@ header.stayFixed main {
     /* Resize the video container */
     .video-content {
         width: 95%;
-        max-height: 80vh;
+        height: 80vh;
     }
 
+    .video-content video{
+        object-fit: fill;
+    }
     /* Video controls adjustments */
     .video-controls {
         padding: 5px;
@@ -2332,8 +2335,8 @@ header.stayFixed main {
     position: fixed; /* Use absolute positioning */
     top: 0;
     left: 0; /* Start off-screen to the left */
-    width: 98%;
-    height: 100%;
+    width: 99%;
+    height: 99%;
     background-color: black;
     overflow: hidden;
     z-index: 1000;
@@ -2346,7 +2349,7 @@ header.stayFixed main {
 .video-highlight video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 
@@ -2414,7 +2417,7 @@ header.stayFixed main {
     /* Video element */
     .video-highlight video {
         width: 100%;
-        height: auto; /* Maintain aspect ratio */
+        height: 100%; /* Maintain aspect ratio */
         object-fit: fill; /* Ensure video fits without cropping */
     }
 
