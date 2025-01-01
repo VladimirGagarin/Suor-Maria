@@ -694,8 +694,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const prefVid = document.querySelector('.video-content video');
         if (!prefVid) return; // Ensure the video element exists
 
-        const playVidBtn = document.querySelector('.video-controls button.play');
-        const muteVidBtn = document.querySelector('.video-controls button.mute');
+        const playVidBtn = document.querySelectorAll('.video-controls button')[0];
+        const muteVidBtn = document.querySelectorAll('.video-controls button')[1];
         const looadingGiv = document.querySelector('.loading-spinner');
         let isplayinVid = false;
         let isMuted = false;
@@ -705,6 +705,8 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('.video-wish-merry-overlay').style.display = "flex";
             prefVid.src = (currentLanguage === "italian") ? "itnewyear2025.mp4" : "ennewyear2025.mp4"; // New video for Jan 1, 2025
             PlayXmasvidBtn.disabled = false;
+            displayYearvideo();
+            return;
         }
        
         
@@ -1178,7 +1180,7 @@ document.addEventListener('DOMContentLoaded', function () {
         prefVid.poster = "en_year_logo.png";
         let isplayinVid = false;
         let isMuted = false;
-        let shownLastVideo = false;
+      
 
         prefVid.src = (currentLanguage === "italian") ? "itnewyear2025.mp4" : "ennewyear2025.mp4"; 
 
@@ -1208,7 +1210,7 @@ document.addEventListener('DOMContentLoaded', function () {
             looadingGiv.style.display = "none";
             document.querySelector('.video-wish-merry-overlay').style.display = "none";
             displayGoodBye2024();
-            shownLastVideo = true;
+            
         }
 
         prefVid.addEventListener('waiting', function() {
