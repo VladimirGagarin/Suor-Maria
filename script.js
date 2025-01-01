@@ -192,15 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
     showCurrentLangugueStatus();
 
     PlayXmasvidBtn.onclick = function () {
-        const today = new Date();
-        const year = today.getFullYear();
-    
-        // Check if the current year is 2025
-        if (year === 2025) {
-            displayYearvideo();  // Call the 2025 video function
-        } else if (year === 2024) {
-            displayExmasvideo(); // Call the 2024 Christmas video function
-        }
+            displayYearvideo();
     }
     
 
@@ -1665,6 +1657,8 @@ document.addEventListener('DOMContentLoaded', function () {
             loading.style.display = "none";
             vid.classList.remove('stalled');
             document.querySelector('.video-highlight').style.display = "none";
+            vid.currentTime = 0;
+            playButton.style.display = "flex";
         });
     }
 
