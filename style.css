@@ -1954,7 +1954,7 @@ header.stayFixed main {
 
 @media (max-width: 800px) {
     .happy-new-year-message {
-        width: 100%;
+        width: 90%;
         min-height: 30vh;
         height: auto;
         margin-top: 40px;
