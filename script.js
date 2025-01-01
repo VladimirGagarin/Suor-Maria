@@ -191,9 +191,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     showCurrentLangugueStatus();
 
-     PlayXmasvidBtn.onclick  = function () {
-        displayExmasvideo();
+    PlayXmasvidBtn.onclick = function () {
+        const today = new Date();
+        const year = today.getFullYear();
+    
+        // Check if the current year is 2025
+        if (year === 2025) {
+            displayYearvideo();  // Call the 2025 video function
+        } else if (year === 2024) {
+            displayExmasvideo(); // Call the 2024 Christmas video function
+        }
     }
+    
 
     loveBtn.onclick = function () {
         displayLovemessage();
@@ -255,6 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (currentMonth >= 0 && currentDay >= 1 && currentYear === 2025) {
             PlayXmasvidBtn.disabled = false;
+            
         }
     
         playbtn.onclick = function () {
@@ -318,7 +328,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (currentMonth >= 11 && date >= 27 && currentYear === 2025) {
             hbdDiv.style.display = "none";
-            PlayXmasvidBtn.disabled = true;
+            PlayXmasvidBtn.disabled = false;
         }
     }
     
@@ -683,7 +693,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.wishing-content').classList.remove('glowing');
     }
 
-    function displayExmasvideo () {
+    function displayExmasvideo() {
         const currentDate = new Date();
         const currentDay = currentDate.getDate();
         const currentMonth = currentDate.getMonth(); // 0-based, so December is 11
@@ -698,19 +708,21 @@ document.addEventListener('DOMContentLoaded', function () {
         let isplayinVid = false;
         let isMuted = false;
 
-        if (currentMonth >= 0 && currentDay >= 1 && currentYear >= 2025) {
-            prefVid.src =  (currentLanguage === "italian") ? "itnewyear2025.mp4" : "ennewyear2025.mp4"; // New video for Jan 1, 2025    
+         // Logic to handle New Year video starting Jan 1, 2025
+        if (currentYear > 2024 || (currentYear === 2024 && currentMonth === 0 && currentDay >= 1)) {
+            document.querySelector('.video-wish-merry-overlay').style.display = "flex";
+            prefVid.src = (currentLanguage === "italian") ? "itnewyear2025.mp4" : "ennewyear2025.mp4"; // New video for Jan 1, 2025
+            PlayXmasvidBtn.disabled = false;
         }
+       
         
-        if(currentMonth === 11 &&  currentDay >= 27) {
-
+        if (currentMonth === 11 && currentDay >= 27 && currentYear === 2024) {
             document.querySelector('.video-wish-merry-overlay').style.display = "none";
             //alert(currentLanguage === "italian" ? "Buon Natale e Felice Anno Nuovo!" : "Christmas is over. Wishing you a Happy New Year!");
             PlayXmasvidBtn.disabled = true;
             return;
-        }
+        }      
         
-
 
         if(currentHbd && !currentHbd.paused) {
             currentHbd.pause();
@@ -1095,7 +1107,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Start the countdown
         countdownYear = setInterval(startNewYearsCountDown, 1000);
         document.querySelector('.happy-new-year-message').style.display = 'flex';
-        document.querySelector('.auth-page').classList.add('newYear');
+       
     }
    
     function startNewYearsCountDown() {
@@ -1159,14 +1171,100 @@ document.addEventListener('DOMContentLoaded', function () {
                     ? "Il conto alla rovescia è finito." 
                     : "Countdown is over.";
 
-
+            PlayXmasvidBtn.disabled = false;
             displayNewYearsMessage();
-            displayExmasvideo();
+            document.querySelector('.auth-page').classList.add('newYear');
         }
     }
     
+    function displayYearvideo () {
+        document.querySelector('.video-wish-merry-overlay').style.display = "flex";
+        const playVidBtn = document.querySelectorAll('.video-controls button')[0];
+        const muteVidBtn = document.querySelectorAll('.video-controls button')[1];
+        const looadingGiv = document.querySelector('.loading-spinner');
+        const prefVid = document.querySelector('.video-content video');
+        prefVid.poster = "en_year_logo.png";
+        let isplayinVid = false;
+        let isMuted = false;
+        let shownLastVideo = false;
+
+        prefVid.src = (currentLanguage === "italian") ? "itnewyear2025.mp4" : "ennewyear2025.mp4"; 
+
+         playVidBtn.onclick = function () {
+            isplayinVid = !isplayinVid;
+
+            if(isplayinVid) {
+                prefVid.play();
+                playVidBtn.innerHTML = "&#10074;&#10074;";
+            }
+            else {
+                prefVid.pause();
+                playVidBtn.innerHTML = "&#9654;";
+            }
+        }
+
+        muteVidBtn.onclick = function () {
+            isMuted = !isMuted;
+
+            prefVid.muted = isMuted;
+            muteVidBtn.innerHTML = isMuted ? "&#128266;" : "&#128263;";
+        }
+
+        prefVid.onended = function() {
+            isplayinVid = false;
+            playVidBtn.innerHTML = "&#9654;";
+            looadingGiv.style.display = "none";
+            document.querySelector('.video-wish-merry-overlay').style.display = "none";
+            displayGoodBye2024();
+            shownLastVideo = true;
+        }
+
+        prefVid.addEventListener('waiting', function() {
+            looadingGiv.style.display = "flex";
+        });
+
+        prefVid.addEventListener('error', function() {
+            looadingGiv.style.display = "flex";
+        });
+
+        prefVid.addEventListener('stalled', function() {
+            looadingGiv.style.display = "flex";
+        });
+
+        prefVid.addEventListener('playing', function() {
+            looadingGiv.style.display = "none";
+        });
+
+        prefVid.addEventListener('canplay', function() {
+            looadingGiv.style.display = "none";
+        });
+
+
+        prefVid.addEventListener('canplaythrough', function() {
+            looadingGiv.style.display = "none";
+        });
+
+        prefVid.addEventListener('loadstart', function() {
+            looadingGiv.style.display = "flex";
+        });        
+
+        document.querySelector('.close-video-overlay').onclick = function () {
+            prefVid.pause();
+            isplayinVid =false;
+            isMuted = false;
+            muteVidBtn.innerHTML = isMuted ? "&#128266;" : "&#128263;";
+            playVidBtn.innerHTML = "&#9654;";
+            prefVid.muted = isMuted;
+            looadingGiv.style.display = "none";
+            document.querySelector('.video-wish-merry-overlay').style.display = "none";
+            displayGoodBye2024();
+        }
+    }
 
     function  displayNewYearsMessage() {
+
+        displayYearvideo();
+
 
         let isPlayingNewYearWish = false;
         document.querySelector('.happy-new-year-message').classList.add('festive');
@@ -1184,10 +1282,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const  enyear = new  Audio(document.querySelector('.new-year-heartfelt-message').getAttribute('data-enyearwish'));
         const ityear = new  Audio(document.querySelector('.new-year-heartfelt-message').getAttribute('data-ityearwish'));
 
-        document.querySelector('.hidden-message .center-message button').onclick = function () {
-        
-            currentNewYearWish = (currentLanguage === 'italian') ? ityear : enyear;
+        currentNewYearWish = (currentLanguage === 'italian') ? ityear : enyear;
 
+        document.querySelector('.hidden-message .center-message button').onclick = function () {
+             currentNewYearWish = (currentLanguage === 'italian') ? ityear : enyear;
             isPlayingNewYearWish = !isPlayingNewYearWish;
             document.querySelector('.new-year-heartfelt-message').classList.toggle('glowing', isPlayingNewYearWish);
             
@@ -1200,9 +1298,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.innerHTML = '&#9654';
             }
 
-            if(currentMusicRefreshment && !currentMusicRefreshment.paused) {
-                currentMusicRefreshment.pause();
-            }
+            
 
             currentNewYearWish.onended = function () {
                 isPlayingNewYearWish = false;
@@ -1211,7 +1307,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.scrollTo({
                     top: document.body.scrollHeight,
                     behavior: 'smooth'
-                  });                  
+                  });  
+                  
+                  displayYearvideo()
             }.bind(this);
         }
 
@@ -1319,6 +1417,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
    
     playSongIcon.onclick = function () {
+        if(currentNewYearWish) {
+            currentNewYearWish.pause();
+            currentNewYearWish.currentTime = 0;
+            document.querySelector('.hidden-message .center-message button').innerHTML = '&#9654;';
+            isPlayingNewYearWish = false;
+            document.querySelector('.new-year-heartfelt-message').classList.toggle('glowing', isPlayingNewYearWish);
+        }
         isFullScreen = !isFullScreen;
         const lyricsSelection = herosLyrics;
         const lang = currentLanguage ?? "english";
