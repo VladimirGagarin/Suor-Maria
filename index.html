@@ -126,39 +126,88 @@
     <script>
         // Quotes with English and Italian translations
         const quotes = [
-            {
-                en: "Let us always meet each other with smile, for the smile is the beginning of love. – Mother Teresa",
-                it: "Incontriamoci sempre con un sorriso, perché il sorriso è l’inizio dell’amore. – Madre Teresa"
-            },
-            {
-                en: "Faith is taking the first step even when you don't see the whole staircase. – Martin Luther King Jr.",
-                it: "La fede è fare il primo passo anche quando non vedi tutta la scala. – Martin Luther King Jr."
-            },
-            {
-                en: "God does not require that we be successful only that we be faithful. – Mother Teresa",
-                it: "Dio non ci chiede di avere successo, ma solo di essere fedeli. – Madre Teresa"
-            },
-            {
-                en: "Prayer is the key of the morning and the bolt of the evening. – Mahatma Gandhi",
-                it: "La preghiera è la chiave del mattino e il catenaccio della sera. – Mahatma Gandhi"
-            },
-            {
-                en: "Peace begins with a smile. – Mother Teresa",
-                it: "La pace inizia con un sorriso. – Madre Teresa"
-            },
-            {
-                en: "The best way to find yourself is to lose yourself in the service of others. – Mahatma Gandhi",
-                it: "Il modo migliore per trovare te stesso è perderti al servizio degli altri. – Mahatma Gandhi"
-            },
-            {
-                en: "With God all things are possible. – Matthew 19:26",
-                it: "Con Dio tutto è possibile. – Matteo 19,26"
-            },
-            {
-                en: "Be still, and know that I am God. – Psalm 46:10",
-                it: "Fermatevi! Sappiate che io sono Dio. – Salmo 46,10"
-            }
-        ];
+    {
+        en: "Let us always meet each other with smile, for the smile is the beginning of love.",
+        it: "Incontriamoci sempre con un sorriso, perché il sorriso è l’inizio dell’amore.",
+        author: "Mother Teresa"
+    },
+    {
+        en: "Faith is taking the first step even when you don't see the whole staircase.",
+        it: "La fede è fare il primo passo anche quando non vedi tutta la scala.",
+        author: "Martin Luther King Jr."
+    },
+    {
+        en: "God does not require that we be successful only that we be faithful.",
+        it: "Dio non ci chiede di avere successo, ma solo di essere fedeli.",
+        author: "Mother Teresa"
+    },
+    {
+        en: "Prayer is the key of the morning and the bolt of the evening.",
+        it: "La preghiera è la chiave del mattino e il catenaccio della sera.",
+        author: "Mahatma Gandhi"
+    },
+    {
+        en: "Peace begins with a smile.",
+        it: "La pace inizia con un sorriso.",
+        author: "Mother Teresa"
+    },
+    {
+        en: "The best way to find yourself is to lose yourself in the service of others.",
+        it: "Il modo migliore per trovare te stesso è perderti al servizio degli altri.",
+        author: "Mahatma Gandhi"
+    },
+    {
+        en: "With God all things are possible.",
+        it: "Con Dio tutto è possibile.",
+        author: "Matthew 19:26"
+    },
+    {
+        en: "Be still, and know that I am God.",
+        it: "Fermatevi! Sappiate che io sono Dio.",
+        author: "Psalm 46:10"
+    },
+    // Additional quotes, with author Sr. Mary Japheth
+    {
+        en: "Each new day is a precious gift; embrace it with gratitude and faith.",
+        it: "Ogni nuovo giorno è un dono prezioso; accoglilo con gratitudine e fede.",
+        author: "Sr. Mary Japheth"
+    },
+    {
+        en: "Kindness is the language that unites every heart.",
+        it: "La gentilezza è la lingua che unisce ogni cuore.",
+        author: "Sr. Mary Japheth"
+    },
+    {
+        en: "Let your light shine, even when the world feels dim.",
+        it: "Lascia che la tua luce brilli, anche quando il mondo sembra spento.",
+        author: "Sr. Mary Japheth"
+    },
+    {
+        en: "A prayer whispered in hope is never in vain.",
+        it: "Una preghiera sussurrata nella speranza non è mai vana.",
+        author: "Sr. Mary Japheth"
+    },
+    {
+        en: "Forgiveness is the fragrance the flower leaves on the heel that crushes it.",
+        it: "Il perdono è la fragranza che il fiore lascia sul tallone che lo schiaccia.",
+        author: "Sr. Mary Japheth"
+    },
+    {
+        en: "Trust God’s timing, for He writes the best stories.",
+        it: "Abbi fiducia nei tempi di Dio, perché Lui scrive le storie migliori.",
+        author: "Sr. Mary Japheth"
+    },
+    {
+        en: "Love is the bridge between you and everything.",
+        it: "L’amore è il ponte tra te e tutto ciò che esiste.",
+        author: "Sr. Mary Japheth"
+    },
+    {
+        en: "Let your faith be bigger than your fears.",
+        it: "Lascia che la tua fede sia più grande delle tue paure.",
+        author: "Sr. Mary Japheth"
+    }
+];
         function getUserLang() {
             if (navigator.languages && navigator.languages.length) {
                 return navigator.languages[0];
@@ -178,7 +227,7 @@
             } else {
                 quoteText = quotes[randomIndex].en;
             }
-            quoteDiv.textContent = quoteText;
+            quoteDiv.innerHTML = `${quoteText}<br><span style="font-style:italic;">— ${author}</span>`;
             launchConfetti();
         }
 
